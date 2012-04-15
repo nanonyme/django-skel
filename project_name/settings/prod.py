@@ -42,6 +42,7 @@ SERVER_EMAIL = EMAIL_HOST_USER
 # See: http://devcenter.heroku.com/articles/django#postgres_database_config
 uses_netloc.append('postgres')
 uses_netloc.append('mysql')
+uses_netloc.append('oracle')
 
 try:
     url = environ.get('DATABASE_URL')
@@ -58,6 +59,8 @@ try:
             DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
         if url.scheme == 'mysql':
             DATABASES['default']['ENGINE'] = 'django.db.backends.mysql'
+        if url.scheme == 'oracle':
+            DATABASES['default']['ENGINE'] = 'django.db.backends.oracle'
 except:
     print "Unexpected error:", exc_info()
 ########## END DATABASE CONFIGURATION

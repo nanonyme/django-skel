@@ -1,0 +1,2 @@
+-r prod.txt
+cx_Oracle==5.1.1
