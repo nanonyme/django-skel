@@ -44,8 +44,9 @@ uses_netloc.append('postgres')
 uses_netloc.append('mysql')
 
 try:
-    if 'DATABASE_URL' in environ:
-        url = urlparse(environ['DATABASE_URL'])
+    url = environ.get('DATABASE_URL')
+    if not url is None:
+        url = urlparse(url)
         DATABASES['default'] = {
             'NAME': url.path[1:],
             'USER': url.username,
