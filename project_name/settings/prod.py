@@ -43,6 +43,9 @@ SERVER_EMAIL = EMAIL_HOST_USER
 uses_netloc.append('postgres')
 uses_netloc.append('mysql')
 uses_netloc.append('oracle')
+engine_mapping = {'postgres':'django.db.backends.postgresql_psycopg2',
+                  'mysql':'django.db.backends.mysql',
+                  'oracle':'django.db.backends.oracle'}
 
 try:
     url = environ.get('DATABASE_URL')
@@ -54,13 +57,8 @@ try:
             'PASSWORD': url.password,
             'HOST': url.hostname,
             'PORT': url.port,
+            'ENGINE': engine_mapping[url.scheme],
         }
-        if url.scheme == 'postgres':
-            DATABASES['default']['ENGINE'] = 'django.db.backends.postgresql_psycopg2'
-        if url.scheme == 'mysql':
-            DATABASES['default']['ENGINE'] = 'django.db.backends.mysql'
-        if url.scheme == 'oracle':
-            DATABASES['default']['ENGINE'] = 'django.db.backends.oracle'
 except:
     print "Unexpected error:", exc_info()
 ########## END DATABASE CONFIGURATION
