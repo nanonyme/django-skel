@@ -13,6 +13,13 @@ class DictWrapper(object):
         wrapped.update(self.__dict__)
         self.__dict__ = wrapped
 
+    def __getattr__(self, key):
+        if key not in self.__dict__:
+            return getattr(conf.global_settings, key)
+        else:
+            return self.__dict__[key]
+                                                                    
+
 conf.settings = conf.LazySettings()
 conf.settings.configure(default_settings=DictWrapper(config))
 

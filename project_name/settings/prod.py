@@ -124,3 +124,8 @@ config['INSTALLED_APPS'] += (
     'gunicorn',
 )
 ########## END WEBSERVER CONFIGURATION
+
+######### WORKAROUND FOR DJANGO #####
+# Django isn't respecting its own LazySettings API
+SECRET_KEY = config['SECRET_KEY']
+######### END WORKAROUNDS FOR DJANGO

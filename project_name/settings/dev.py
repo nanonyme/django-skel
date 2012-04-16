@@ -61,3 +61,8 @@ config['CELERY_RESULT_DBURI'] = config['DATABASES']['default']
 # See: http://docs.celeryq.org/en/latest/configuration.html#celery-always-eager
 config['CELERY_ALWAYS_EAGER'] = True
 ########## END CELERY CONFIGURATION
+
+######### WORKAROUND FOR DJANGO #####
+# Django isn't respecting its own LazySettings API
+SECRET_KEY = config['SECRET_KEY']
+######### END WORKAROUNDS FOR DJANGO
