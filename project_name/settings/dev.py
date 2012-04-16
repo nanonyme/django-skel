@@ -3,30 +3,30 @@
 
 from os.path import join, normpath
 
-from common import *
+from common import config
 
 
 ########## DEBUG CONFIGURATION
 # See: https://docs.djangoproject.com/en/1.3/ref/settings/#debug
-DEBUG = True
+config['DEBUG'] = True
 
 # See: https://docs.djangoproject.com/en/1.3/ref/settings/#template-debug
-TEMPLATE_DEBUG = DEBUG
+config['TEMPLATE_DEBUG'] = config['DEBUG']
 ########## END DEBUG CONFIGURATION
 
 
 ########## EMAIL CONFIGURATION
 # See: https://docs.djangoproject.com/en/1.3/ref/settings/#email-backend
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+config['EMAIL_BACKEND'] = 'django.core.mail.backends.console.EmailBackend'
 ########## END EMAIL CONFIGURATION
 
 
 ########## DATABASE CONFIGURATION
 # See: https://docs.djangoproject.com/en/1.3/ref/settings/#databases
-DATABASES = {
+config['DATABASES'] = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': normpath(join(DJANGO_ROOT, 'default.db')),
+        'NAME': normpath(join(config['DJANGO_ROOT'], 'default.db')),
         'USER': '',
         'PASSWORD': '',
         'HOST': '',
@@ -38,7 +38,7 @@ DATABASES = {
 
 ########## CACHE CONFIGURATION
 # See: https://docs.djangoproject.com/en/1.3/ref/settings/#caches
-CACHES = {
+config['CACHES'] = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
     }
@@ -48,16 +48,16 @@ CACHES = {
 
 ########## CELERY CONFIGURATION
 # See: http://ask.github.com/django-celery/
-INSTALLED_APPS += (
+config['INSTALLED_APPS'] += (
     'djkombu',
 )
 
 # See: http://docs.celeryq.org/en/latest/configuration.html#broker-transport
-BROKER_TRANSPORT = 'djkombu.transport.DatabaseTransport'
+config['BROKER_TRANSPORT'] = 'djkombu.transport.DatabaseTransport'
 
 # See: http://docs.celeryq.org/en/latest/configuration.html#celery-result-dburi
-CELERY_RESULT_DBURI = DATABASES['default']
+config['CELERY_RESULT_DBURI'] = config['DATABASES']['default']
 
 # See: http://docs.celeryq.org/en/latest/configuration.html#celery-always-eager
-CELERY_ALWAYS_EAGER = True
+config['CELERY_ALWAYS_EAGER'] = True
 ########## END CELERY CONFIGURATION

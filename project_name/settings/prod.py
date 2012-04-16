@@ -7,34 +7,35 @@ from urlparse import urlparse, uses_netloc
 
 from S3 import CallingFormat
 
-from common import *
+from common import config
 
 
 
 ########## EMAIL CONFIGURATION
 # See: https://docs.djangoproject.com/en/1.3/ref/settings/#email-backend
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+config['EMAIL_BACKEND'] = 'django.core.mail.backends.smtp.EmailBackend'
 
 # See: https://docs.djangoproject.com/en/1.3/ref/settings/#email-host
-EMAIL_HOST = environ.get('EMAIL_HOST', 'smtp.gmail.com')
+config['EMAIL_HOST'] = environ.get('EMAIL_HOST', 'smtp.gmail.com')
 
 # See: https://docs.djangoproject.com/en/1.3/ref/settings/#email-host-password
-EMAIL_HOST_PASSWORD = environ.get('EMAIL_HOST_PASSWORD', '')
+config['EMAIL_HOST_PASSWORD'] = environ.get('EMAIL_HOST_PASSWORD', '')
 
 # See: https://docs.djangoproject.com/en/1.3/ref/settings/#email-host-user
-EMAIL_HOST_USER = environ.get('EMAIL_HOST_USER', 'your_email@example.com')
+config['EMAIL_HOST_USER'] = environ.get('EMAIL_HOST_USER',
+                                        'your_email@example.com')
 
 # See: https://docs.djangoproject.com/en/1.3/ref/settings/#email-port
-EMAIL_PORT = environ.get('EMAIL_PORT', 587)
+config['EMAIL_PORT'] = environ.get('EMAIL_PORT', 587)
 
 # See: https://docs.djangoproject.com/en/1.3/ref/settings/#email-subject-prefix
-EMAIL_SUBJECT_PREFIX = '[%s] ' % SITE_NAME
+config['EMAIL_SUBJECT_PREFIX'] = '[%s] ' % config['SITE_NAME']
 
 # See: https://docs.djangoproject.com/en/1.3/ref/settings/#email-use-tls
-EMAIL_USE_TLS = True
+config['EMAIL_USE_TLS'] = True
 
 # See: https://docs.djangoproject.com/en/1.3/ref/settings/#server-email
-SERVER_EMAIL = EMAIL_HOST_USER
+config['SERVER_EMAIL'] = config['EMAIL_HOST_USER']
 ########## END EMAIL CONFIGURATION
 
 
@@ -51,7 +52,7 @@ try:
     url = environ.get('DATABASE_URL')
     if not url is None:
         url = urlparse(url)
-        DATABASES['default'] = {
+        config['DATABASES']['default'] = {
             'NAME': url.path[1:],
             'USER': url.username,
             'PASSWORD': url.password,
@@ -66,7 +67,7 @@ except:
 
 ########## CACHE CONFIGURATION
 # See: https://docs.djangoproject.com/en/1.3/ref/settings/#caches
-CACHES = {
+config['CACHES'] = {
     'default': {
         'BACKEND': 'django_pylibmc.memcached.PyLibMCCache',
         'LOCATION': 'localhost:11211',
@@ -83,42 +84,43 @@ CACHES = {
 
 ########## CELERY CONFIGURATION
 # See: http://docs.celeryproject.org/en/latest/configuration.html#broker-transport
-BROKER_TRANSPORT = 'amqplib'
+config['BROKER_TRANSPORT'] = 'amqplib'
 
 # See: http://docs.celeryproject.org/en/latest/configuration.html#broker-url
-BROKER_URL = environ.get('RABBITMQ_URL', '')
+config['BROKER_URL'] = environ.get('RABBITMQ_URL', '')
 
 # See: http://docs.celeryproject.org/en/latest/configuration.html#celery-result-backend
-CELERY_RESULT_BACKEND = 'amqp'
+config['CELERY_RESULT_BACKEND'] = 'amqp'
 
 # See: http://docs.celeryproject.org/en/latest/configuration.html#celery-task-result-expires
-CELERY_TASK_RESULT_EXPIRES = 60 * 60 * 5
+config['CELERY_TASK_RESULT_EXPIRES'] = 60 * 60 * 5
 ########## END CELERY CONFIGURATION
 
 
 ########## STORAGE CONFIGURATION
 # See: http://django-storages.readthedocs.org/en/latest/index.html
-INSTALLED_APPS += (
+config['INSTALLED_APPS'] += (
     'storages',
 )
 
 # See: http://django-storages.readthedocs.org/en/latest/backends/amazon-S3.html#settings
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+config['DEFAULT_FILE_STORAGE'] = 'storages.backends.s3boto.S3BotoStorage'
+config['STATICFILES_STORAGE'] = 'storages.backends.s3boto.S3BotoStorage'
 
-AWS_CALLING_FORMAT = CallingFormat.SUBDOMAIN
+config['AWS_CALLING_FORMAT'] = CallingFormat.SUBDOMAIN
 
-AWS_ACCESS_KEY_ID = environ.get('AWS_ACCESS_KEY_ID', '')
-AWS_SECRET_ACCESS_KEY = environ.get('AWS_SECRET_ACCESS_KEY', '')
-AWS_STORAGE_BUCKET_NAME = environ.get('AWS_STORAGE_BUCKET_NAME', '')
+config['AWS_ACCESS_KEY_ID'] = environ.get('AWS_ACCESS_KEY_ID', '')
+config['AWS_SECRET_ACCESS_KEY'] = environ.get('AWS_SECRET_ACCESS_KEY', '')
+config['AWS_STORAGE_BUCKET_NAME'] = environ.get('AWS_STORAGE_BUCKET_NAME', '')
 
-STATIC_URL = 'https://s3.amazonaws.com/%s/' % AWS_STORAGE_BUCKET_NAME
+config['STATIC_URL'] = ('https://s3.amazonaws.com/%s/' %
+                        config['AWS_STORAGE_BUCKET_NAME'])
 ########## END STORAGE CONFIGURATION
 
 
 ########## WEBSERVER CONFIGURATION
 # See: http://gunicorn.org/
-INSTALLED_APPS += (
+config['INSTALLED_APPS'] += (
     'gunicorn',
 )
 ########## END WEBSERVER CONFIGURATION
