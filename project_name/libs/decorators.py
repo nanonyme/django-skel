@@ -14,7 +14,7 @@ except ImportError:
 else:
     sleep_functions['gevent'] = gevent.sleep
 
-def delayed_view(coroutine=None, interval=0.5):
+def delayed_view(interval=0.5, coroutine=None):
     def wrapper(func):
         @wraps(func)
         def inner(*args, **kwargs):
