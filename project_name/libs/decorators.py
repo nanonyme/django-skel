@@ -15,9 +15,8 @@ else:
     sleep_functions['gevent'] = gevent.sleep
 
 def delayed_view(coroutine=None, interval=0.5):
-    @wraps
     def wrapper(func):
-        @wraps
+        @wraps(func)
         def inner(*args, **kwargs):
             if coroutine is None:
                 return func.delay(*args, **kwargs).get(interval=interval)
@@ -28,3 +27,5 @@ def delayed_view(coroutine=None, interval=0.5):
             while not result.ready():
                 sleep_function(interval)
             return result.get()
+        return inner
+    return wrapper
