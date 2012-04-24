@@ -6,7 +6,7 @@ try:
 except ImportError:
     pass
 else:
-    sleep_functions['eventlet'] = eventlet.greenlet.sleep
+    sleep_functions['eventlet'] = eventlet.sleep
 try:
     import gevent
 except ImportError:
