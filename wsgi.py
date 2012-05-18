@@ -26,3 +26,11 @@ application = get_wsgi_application()
 # Apply WSGI middleware here.
 # from helloworld.wsgi import HelloWorldApplication
 # application = HelloWorldApplication(application)
+try:
+    from twisted.web.wsgi import WSGIResource
+    from twisted.internet import reactor
+except ImportError:
+    pass
+else:
+    twisted_application = WSGIResource(reactor, reactor.getThreadPool(),
+                                       application)
