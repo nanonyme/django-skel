@@ -241,4 +241,4 @@ setup_loader()
 ########## END CELERY CONFIGURATION
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'wsgi.application'
+WSGI_APPLICATION = 'wsgi.common.application'
